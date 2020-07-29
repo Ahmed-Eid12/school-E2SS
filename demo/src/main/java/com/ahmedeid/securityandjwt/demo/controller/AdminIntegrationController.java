@@ -70,7 +70,7 @@ public class AdminIntegrationController {
 			,@RequestBody UserSection userSection) {
 		UserSection getUserSection = this.userSectionService.findUserSectionById(userSectionId);
 		
-		if(getUserSection != null) {
+		if(getUserSection != null && ( getUserSection.getId() == userSection.getId() )) {
 			return this.userSectionService.saveNewSection(userSection);	
 		}
 		return null;
