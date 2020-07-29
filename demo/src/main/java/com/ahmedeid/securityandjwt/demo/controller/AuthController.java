@@ -145,7 +145,6 @@ public class AuthController {
 			@RequestParam("userInfo") String userInfoUI,
 			@RequestParam("file") MultipartFile file,
 			@PathVariable String userCode,@PathVariable String userSection) {
-		
 		Gson gson = null;
 		UIUserInformationBean userInfoUIBean ;
 		UserInformation userInfo = null;
@@ -210,5 +209,5 @@ public class AuthController {
 		
 		return previousJobList;
 	}
-
+	
 }

@@ -77,4 +77,41 @@ public class AddingSqlToUser {
 		return userStatus;
 	}
 	
+	@Transactional
+	public List<User> usersHaveNoInfo() {
+		Session session = entityManager.unwrap(Session.class);
+		
+		Query<User> userSQL = session.createQuery("from User where userInformation is null" );
+		
+		List<User> users = userSQL.getResultList();
+		
+		return users;
+	}
+	
+	@Transactional
+	public Long countUsersHaveNoInfo() {
+		Session session = entityManager.unwrap(Session.class);
+		
+		Query userSQL = session.createQuery("select count(*) from User where userInformation is null" );
+		
+		Long usersCount = (Long)userSQL.uniqueResult();
+		
+		return usersCount;
+	}
+	
+	@Transactional
+	public boolean isUserHaveinformations(String email) {
+		Session session = entityManager.unwrap(Session.class);
+		boolean status = false;
+		
+		Query userSQL = session.createQuery("from User where userInformation is not null and email= :email" );
+		userSQL.setParameter("email", email);
+		
+		User user = (User) userSQL.uniqueResult();
+		if(user != null) {
+			status = true;
+		}
+		return status;
+	}
+	
 }

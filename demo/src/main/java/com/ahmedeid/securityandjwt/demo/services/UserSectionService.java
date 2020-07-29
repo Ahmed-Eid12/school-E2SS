@@ -24,5 +24,20 @@ public class UserSectionService {
 	public UserSection saveNewSection(UserSection section) {
 		return this.userSectionRepo.save(section);
 	}
+	
+	// get user section by id
+	public UserSection findUserSectionById(Integer userSectionId) {
+		return this.userSectionRepo.findById(userSectionId).get();
+	}
+	
+	// delete user section
+	public boolean deleteUserSection(Integer userSectionId) {
+		UserSection userSection = findUserSectionById(userSectionId);
+		if(userSection != null) {
+			this.userSectionRepo.delete(userSection);
+			return true;
+		}
+		return false;
+	}
 
 }

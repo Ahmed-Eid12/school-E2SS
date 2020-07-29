@@ -13,12 +13,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ahmedeid.securityandjwt.demo.entities.User;
+import com.ahmedeid.securityandjwt.demo.repository.AddingSqlToUser;
 import com.ahmedeid.securityandjwt.demo.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
 
-	@Autowired UserRepository userRepository;
+	@Autowired 
+	private UserRepository userRepository;
+	
+	@Autowired
+	private AddingSqlToUser handSQL;
 	
 	@Bean
 	private PasswordEncoder passwordEncoder() {
@@ -27,9 +32,13 @@ public class UserService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(username);
-		if(user == null) {
-			return null;
+		boolean isUserHaveInformation = this.handSQL.isUserHaveinformations(username);
+		User user = null;
+		if(isUserHaveInformation) {
+			user = userRepository.findByEmail(username);
+			if(user == null) {
+				return null;
+			}	
 		}
 		return user;
 	}
